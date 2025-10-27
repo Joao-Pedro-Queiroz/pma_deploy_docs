@@ -17,23 +17,21 @@ flowchart LR
         direction TB
         gateway --> account
         gateway --> auth:::red
-        gateway --> order
         gateway --> product
+        gateway --> order
         auth --> account
         order --> product
-        order --- product        %% linha adicional que sugere proximidade
-        account --> db[(PostgreSQL)]
+        account --> db@{ shape: cyl, label: "PostgreSQL" }
         product --> db
         order --> db
-        product --> re[(Redis Cache)]
+        product --> re@{ shape: cyl, label: "Redis Cache" }
         re --> |HIT| product
         re --> |MISS| db
         db --> re
     end
-    internet --> |request| gateway:::orange
-
+    internet e2@==> |request| gateway:::orange
+    e2@{ animate: true }
     classDef orange fill:#FCBE3E
-    classDef red fill:#f8d7da,stroke:#c43a3a
 ```
 
 ## Repositórios
