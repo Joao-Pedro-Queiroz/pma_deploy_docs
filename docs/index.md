@@ -13,61 +13,27 @@
 
 ``` mermaid
 flowchart LR
-  %% camadas
-  subgraph public["Cliente / Internet"]
-    direction TB
-    Internet[Internet]
-  end
-
-  subgraph edge["Borda / API Gateway"]
-    direction TB
-    Gateway[Gateway]
-  end
-
-  subgraph backend["Serviços (Subnet API)"]
-    direction TB
-
-    subgraph services["Services"]
-      direction LR
-      Auth[auth\n(authentication)]
-      Account[account\n(profile/orders)]
-      Order[order\n(orders)]
-      Product[product\n(catalog)]
+    subgraph api [Subnet API]
+        direction TB
+        gateway --> account
+        gateway --> auth:::red
+        gateway --> order
+        gateway --> product
+        auth --> account
+        order --> product
+        order --- product        %% linha adicional que sugere proximidade
+        account --> db[(PostgreSQL)]
+        product --> db
+        order --> db
+        product --> re[(Redis Cache)]
+        re --> |HIT| product
+        re --> |MISS| db
+        db --> re
     end
+    internet --> |request| gateway:::orange
 
-    subgraph storage["Armazenamento"]
-      direction LR
-      Redis[(Redis Cache)]
-      Postgres[(PostgreSQL)]
-    end
-  end
-
-  %% fluxos principais
-  Internet -->|HTTP request| Gateway
-  Gateway -->|authn| Auth
-  Gateway --> Account
-  Gateway --> Order
-  Gateway --> Product
-
-  %% interações entre serviços
-  Auth -->|tokens / introspect| Account
-  Account -->|create/read/update| Postgres
-  Order -->|create/read| Postgres
-  Product -->|read| Redis
-  Redis -->|HIT| Product
-  Redis -->|MISS → fallback| Postgres
-  Postgres -->|write / cache update| Redis
-
-  %% estilos simples
-  classDef gw fill:#FCBE3E,stroke:#333,stroke-width:1px
-  classDef svcBox fill:#E8F0FF,stroke:#4b6cb7
-  classDef authBox fill:#FFEDEE,stroke:#c43a3a
-  classDef cyl fill:#FFF7E6,stroke:#b07b00
-
-  class Gateway gw
-  class Product,Account,Order svcBox
-  class Auth authBox
-  class Redis,Postgres cyl
+    classDef orange fill:#FCBE3E
+    classDef red fill:#f8d7da,stroke:#c43a3a
 ```
 
 ## Repositórios
