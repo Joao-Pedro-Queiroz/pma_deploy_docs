@@ -23,11 +23,11 @@ flowchart LR
         order --> product
         account --> db@{ shape: cyl, label: "PostgreSQL" }
         product --> db
+        order --> db
         product --> re@{ shape: cyl, label: "Redis Cache" }
         re --> |HIT| product
         re --> |MISS| db
         db --> re
-        order --> db
     end
     internet e2@==> |request| gateway:::orange
     e2@{ animate: true }
