@@ -14,60 +14,60 @@
 ``` mermaid
 flowchart LR
   %% camadas
-  subgraph public [Cliente / Internet]
+  subgraph public["Cliente / Internet"]
     direction TB
     Internet[Internet]
   end
 
-  subgraph edge [Borda / API Gateway]
+  subgraph edge["Borda / API Gateway"]
     direction TB
     Gateway[Gateway]
   end
 
-  subgraph backend [Serviços (Subnet API)]
+  subgraph backend["Serviços (Subnet API)"]
     direction TB
 
-    %% serviços agrupados horizontalmente
-    subgraph services [Services]
+    subgraph services["Services"]
       direction LR
-      Auth[auth\n(authentication)]:::authBox
-      Account[account\n(profile/orders)]:::svcBox
-      Order[order\n(orders)]:::svcBox
-      Product[product\n(catalog)]:::svcBox
+      Auth[auth\n(authentication)]
+      Account[account\n(profile/orders)]
+      Order[order\n(orders)]
+      Product[product\n(catalog)]
     end
 
-    subgraph storage [Armazenamento]
+    subgraph storage["Armazenamento"]
       direction LR
-      Redis[(Redis Cache)]:::cyl
-      Postgres[(PostgreSQL)]:::cyl
+      Redis[(Redis Cache)]
+      Postgres[(PostgreSQL)]
     end
   end
 
   %% fluxos principais
-  Internet -->|HTTP request| Gateway:::gw
+  Internet -->|HTTP request| Gateway
   Gateway -->|authn| Auth
   Gateway --> Account
   Gateway --> Order
   Gateway --> Product
 
-  %% interação entre serviços
+  %% interações entre serviços
   Auth -->|tokens / introspect| Account
   Account -->|create/read/update| Postgres
   Order -->|create/read| Postgres
   Product -->|read| Redis
   Redis -->|HIT| Product
   Redis -->|MISS → fallback| Postgres
-  Postgres -->|write/cache update| Redis
+  Postgres -->|write / cache update| Redis
 
-  %% estilo e legenda
-  classDef gw fill:#FCBE3E,stroke:#333,stroke-width:1px;
-  classDef svcBox fill:#E8F0FF,stroke:#4b6cb7;
-  classDef authBox fill:#FFEDEE,stroke:#c43a3a;
-  classDef cyl shape:cylinder,fill:#FFF7E6,stroke:#b07b00;
-  class Gateway gw;
-  class Product,Account,Order svcBox;
-  class Auth authBox;
-  class Redis,Postgres cyl;
+  %% estilos simples
+  classDef gw fill:#FCBE3E,stroke:#333,stroke-width:1px
+  classDef svcBox fill:#E8F0FF,stroke:#4b6cb7
+  classDef authBox fill:#FFEDEE,stroke:#c43a3a
+  classDef cyl fill:#FFF7E6,stroke:#b07b00
+
+  class Gateway gw
+  class Product,Account,Order svcBox
+  class Auth authBox
+  class Redis,Postgres cyl
 ```
 
 ## Repositórios
