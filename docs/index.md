@@ -14,24 +14,21 @@
 ``` mermaid
 flowchart LR
     subgraph api [Subnet API]
-        direction LR
-        gateway:::orange --> account
-        gateway:::orange --> auth:::red
-        gateway:::orange --> order
-        order --> product
-        gateway:::orange --> product
-
+        direction TB
+        gateway --> account
+        gateway --> auth:::red
+        gateway --> product
+        gateway --> order
         auth --> account
+        order --> product
         account --> db@{ shape: cyl, label: "PostgreSQL" }
         product --> db
         order --> db
-
         product --> re@{ shape: cyl, label: "Redis Cache" }
         re --> |HIT| product
         re --> |MISS| db
         db --> re
     end
-
     internet e2@==> |request| gateway:::orange
     e2@{ animate: true }
     classDef orange fill:#FCBE3E
