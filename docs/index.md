@@ -13,25 +13,61 @@
 
 ``` mermaid
 flowchart LR
-    subgraph api [Subnet API]
-        direction TB
-        gateway --> account
-        gateway --> auth:::red
-        gateway --> product
-        gateway --> order
-        auth --> account
-        order --> product
-        account --> db@{ shape: cyl, label: "PostgreSQL" }
-        product --> db
-        order --> db
-        product --> re@{ shape: cyl, label: "Redis Cache" }
-        re --> |HIT| product
-        re --> |MISS| db
-        db --> re
+  %% camadas
+  subgraph public [Cliente / Internet]
+    direction TB
+    Internet[Internet]
+  end
+
+  subgraph edge [Borda / API Gateway]
+    direction TB
+    Gateway[Gateway]
+  end
+
+  subgraph backend [Serviços (Subnet API)]
+    direction TB
+
+    %% serviços agrupados horizontalmente
+    subgraph services [Services]
+      direction LR
+      Auth[auth\n(authentication)]:::authBox
+      Account[account\n(profile/orders)]:::svcBox
+      Order[order\n(orders)]:::svcBox
+      Product[product\n(catalog)]:::svcBox
     end
-    internet e2@==> |request| gateway:::orange
-    e2@{ animate: true }
-    classDef orange fill:#FCBE3E
+
+    subgraph storage [Armazenamento]
+      direction LR
+      Redis[(Redis Cache)]:::cyl
+      Postgres[(PostgreSQL)]:::cyl
+    end
+  end
+
+  %% fluxos principais
+  Internet -->|HTTP request| Gateway:::gw
+  Gateway -->|authn| Auth
+  Gateway --> Account
+  Gateway --> Order
+  Gateway --> Product
+
+  %% interação entre serviços
+  Auth -->|tokens / introspect| Account
+  Account -->|create/read/update| Postgres
+  Order -->|create/read| Postgres
+  Product -->|read| Redis
+  Redis -->|HIT| Product
+  Redis -->|MISS → fallback| Postgres
+  Postgres -->|write/cache update| Redis
+
+  %% estilo e legenda
+  classDef gw fill:#FCBE3E,stroke:#333,stroke-width:1px;
+  classDef svcBox fill:#E8F0FF,stroke:#4b6cb7;
+  classDef authBox fill:#FFEDEE,stroke:#c43a3a;
+  classDef cyl shape:cylinder,fill:#FFF7E6,stroke:#b07b00;
+  class Gateway gw;
+  class Product,Account,Order svcBox;
+  class Auth authBox;
+  class Redis,Postgres cyl;
 ```
 
 ## Repositórios
