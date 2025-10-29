@@ -4,6 +4,7 @@
 
 - João Pedro Queiroz Viana
 - Pedro Ricardo Fardin
+- Giovanny José Vieira Russo
 
 ## Documentação detalhada dos Microserviços, Jenkins, Kubernets e Bottlenecks
 
