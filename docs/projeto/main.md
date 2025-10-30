@@ -14,7 +14,7 @@ Criação do Cluster EKS:
 Ao final, teremos um cluster que, por padrão, tera duas instancias de subnets publicas e privadas, onde no meio delas existe um load balancer para controlar o tráfego de rede, enquanto as aplicações ficam na subnet privada. Deste modo, temos um sistema seguro onde o ususario comum é incapaz de ter acesso à nossa rede após o load balancer:  
 ![Arquitetura do Load Balancer](../img/architecture.png)
 
-Basta então sincronizarmos com nosso aws-cli usando `aws eks update-kubeconfig --name eks-store` e poderemos acessar nosso cluster remotamente.  
+Basta então sincronizarmos com o AWS CLI usando `aws eks update-kubeconfig --name eks-store` e poderemos acessar nosso cluster remotamente.  
 
 ## Teste de Carga
 
