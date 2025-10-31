@@ -19,7 +19,7 @@ Basta então sincronizarmos com o AWS CLI usando `aws eks update-kubeconfig --na
 ## Teste de Carga
 
 <video width="640" height="360" controls>
-  <source src="../video/teste_carga.mp4" type="video/mp4">
+  <source src="/video/teste_carga.mp4" type="video/mp4">
   Seu navegador não suporta o elemento de vídeo.
 </video>
 
