@@ -1,27 +1,55 @@
-# Projeto - AWS + EKS
+# **Projeto – AWS + EKS**
 
-## Configuração AWS CLI
+## ⚙️ Configuração da AWS CLI
 
-Baixar o AWS CLI e utilizar o aws configure com as chaves de acesso.
+Primeiro, instale o **AWS CLI** conforme a documentação oficial da Amazon:  
+👉 [Guia de Instalação do AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
-[AWS CLI - Instalação](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+Após a instalação, configure suas credenciais executando o comando:
 
-## Criação do Cluster na AWS
+```bash
+aws configure
+```
 
-Criação do Cluster EKS:
+Forneça as **chaves de acesso (Access Key ID e Secret Access Key)**, além da **região padrão** e do **formato de saída** desejado.
+
+---
+
+## ☁️ Criação do Cluster EKS
+
+Com o AWS CLI configurado, prossiga com a criação do cluster **EKS (Elastic Kubernetes Service)**.
+
+Exemplo de cluster em execução:  
 ![Cluster Funcionando](../img/cluster_running.png)
 
-Ao final, teremos um cluster que, por padrão, tera duas instancias de subnets publicas e privadas, onde no meio delas existe um load balancer para controlar o tráfego de rede, enquanto as aplicações ficam na subnet privada. Deste modo, temos um sistema seguro onde o ususario comum é incapaz de ter acesso à nossa rede após o load balancer:  
+Ao final do processo, será criado um cluster com duas subnets — **pública** e **privada** — conectadas por um **Load Balancer**.  
+O tráfego externo chega pela subnet pública, onde o Load Balancer atua como intermediário, encaminhando as requisições para as aplicações hospedadas na subnet privada.  
+
+Essa arquitetura garante **segurança e isolamento de rede**, pois o usuário externo não tem acesso direto às instâncias internas:  
 ![Arquitetura do Load Balancer](../img/architecture.png)
 
-Basta então sincronizarmos com o AWS CLI usando `aws eks update-kubeconfig --name eks-store` e poderemos acessar nosso cluster remotamente.  
+Para conectar seu ambiente local ao cluster, execute o seguinte comando:
 
-## Teste de Carga
+```bash
+aws eks update-kubeconfig --name eks-store
+```
+
+Após isso, você poderá acessar e gerenciar o cluster remotamente por meio do `kubectl`.
+
+---
+
+## 🧪 Teste de Carga
+
+Abaixo está um vídeo demonstrando o teste de carga realizado no cluster:
 
 <video width="640" height="360" controls>
   <source src="../video/teste_carga.mp4" type="video/mp4">
   Seu navegador não suporta o elemento de vídeo.
 </video>
+
+<video controls src="../video/teste_carga.mp4" title="Title"></video>
+
+---
 
 ## CI/CD
 
@@ -84,6 +112,8 @@ Para análises mais completas, é possível acessar o [**AWS Cost Explorer**](ht
 ---
 
 📊 *Essas informações ajudam a manter o controle financeiro da infraestrutura em nuvem, permitindo identificar rapidamente aumentos de custo e otimizar os recursos utilizados no cluster EKS.*
+
+---
 
 ## PaaS
 
