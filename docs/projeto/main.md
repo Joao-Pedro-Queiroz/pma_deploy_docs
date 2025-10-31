@@ -42,20 +42,40 @@ Após isso, você poderá acessar e gerenciar o cluster remotamente por meio do 
 
 Abaixo está um vídeo demonstrando o teste de carga realizado no cluster:
 
-<video width="640" height="360" controls>
-  <source src="../video/teste_carga.mp4" type="video/mp4">
-  Seu navegador não suporta o elemento de vídeo.
-</video>
+[![Vídeo do Teste de Carga](../img/video_thumbnail.png)](../video/teste_carga.mp4)
 
-<video controls src="../video/teste_carga.mp4" title="Title"></video>
+> 📌 Clique na imagem para assistir ao vídeo do teste de carga.
 
 ---
 
-## CI/CD
+## 🚀 CI/CD – Integração e Entrega Contínuas
 
-O Jenkins é responsável pela integração contínua (CI) e a entrega contínua (CD) do projeto.
+O pipeline de **CI/CD** deste projeto é orquestrado pelo **Jenkins**, garantindo que todas as atualizações sejam:
+- **Continuamente integradas** ao repositório principal (CI)
+- **Testadas e validadas automaticamente**
+- **Entregues e/ou implantadas de forma automatizada** (CD)
 
-[Documentação Jenkins](https://joao-pedro-queiroz.github.io/pma_apis_docs/jenkins/main/)
+### Principais responsabilidades do Jenkins
+- Build e validação do código a cada commit
+- Execução automática da suíte de testes
+- Geração e versionamento de artefatos
+- Build e push de imagens Docker para o registro configurado
+- Deploy nos ambientes configurados (ex.: Kubernetes/EKS)
+
+### Benefícios do pipeline
+- Redução de falhas durante deploys
+- Feedback rápido para desenvolvedores
+- Maior padronização e rastreabilidade das versões
+- Entregas mais rápidas e seguras
+
+### 📚 Documentação Detalhada do Jenkins
+
+A documentação completa do pipeline de CI/CD — incluindo arquitetura, fluxos dos jobs, ambientes, credenciais e logs de execução — pode ser acessada no link abaixo:
+
+🔗 **Acessar Documentação Jenkins**
+👉 [Documentação Jenkins](https://joao-pedro-queiroz.github.io/pma_apis_docs/jenkins/main/)
+
+---
 
 ## 💰 Custos
 
