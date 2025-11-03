@@ -135,7 +135,7 @@ Para análises mais completas, é possível acessar o [**AWS Cost Explorer**](ht
 
 ---
 
-## PaaS – Onde e Como Utilizamos
+## ☁️ PaaS – Onde e Como Utilizamos
 
 Nesse projeto, o conceito de *Plataforma como Serviço (PaaS)* foi empregado
 com a **AWS Elastic Kubernetes Service (EKS)**.  
