@@ -135,5 +135,78 @@ Para análises mais completas, é possível acessar o [**AWS Cost Explorer**](ht
 
 ---
 
-## PaaS
+## PaaS – Onde e Como Utilizamos
 
+Nesse projeto, o conceito de *Plataforma como Serviço (PaaS)* foi empregado
+com a **AWS Elastic Kubernetes Service (EKS)**.  
+O EKS disponibiliza uma plataforma gerenciada pela AWS para executar e orquestrar
+containers Docker em produção, **sem que seja necessário gerenciar diretamente**:
+
+- Sistema Operacional das máquinas
+- Patches de segurança
+- Setup do Control Plane (API Server, etcd, scheduler…)
+- Alta disponibilidade e failover do cluster
+- Atualizações e manutenção da infraestrutura Kubernetes
+
+> ✅ A AWS assume a responsabilidade por toda a **infraestrutura base**  
+> ✅ Nossa equipe gerencia **apenas as aplicações e configurações de deploy**  
+
+---
+
+### 🎯 O que fazemos (responsabilidade do grupo)
+
+- Construção e versionamento das imagens Docker
+- Deploy dos microserviços no EKS com `kubectl` ou via Jenkins
+- Configuração de Services, Deployments, ConfigMaps e Secrets
+- Escalabilidade dos serviços de acordo com demanda
+- Observabilidade e logs
+
+💡 Isso significa que **todo o ciclo de vida dos microserviços** é controlado por nós,
+em uma plataforma onde **não precisamos nos preocupar com servidores físicos ou VMs**.
+
+---
+
+### 🏗️ O que a AWS faz para nós (característica PaaS)
+
+| Componente | Quem gerencia? |
+|-----------|----------------|
+| Workers Nodes (infraestrutura) | ✅ AWS |
+| Control Plane do Kubernetes | ✅ AWS |
+| Load Balancer público | ✅ AWS |
+| Provisionamento de rede e VPC | ✅ AWS |
+| Autenticação nativa com IAM | ✅ AWS |
+| Execução dos containers | ✅ AWS |
+
+Ou seja: **não precisamos instalar, configurar ou manter o Kubernetes** —  
+apenas utilizá-lo como plataforma para rodar a solução.
+
+---
+
+### 📌 Serviços do projeto que utilizam diretamente a plataforma
+
+Todos os microserviços Java rodam no PaaS através do Kubernetes:
+
+- `gateway-service`
+- `product-service`
+- `order-service`
+- `account-service`
+- `auth-service`
+
+Além disso, o EKS gerencia também:
+
+✅ Comunicação interna entre serviços (Service ClusterIP)  
+✅ Balanceamento de carga (LoadBalancer → ELB)  
+✅ Redis Cache e Postgres como workloads do cluster  
+
+---
+
+## ✅ Conclusão
+
+A utilização do **AWS EKS** como plataforma de execução dos microserviços torna o projeto um exemplo claro de aplicação de **PaaS**, pois o grupo:
+
+✔ Não administra servidores  
+✔ Não gerencia Kubernetes manualmente  
+✔ Aproveita automação de escala, rede e segurança da plataforma  
+✔ Concentra-se **exclusivamente no desenvolvimento e deploy dos serviços**
+
+➡ Assim, o PaaS foi essencial para atingir **alta disponibilidade**, **resiliência** e **redução de esforços operacionais**.
