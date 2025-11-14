@@ -88,6 +88,7 @@ A partir do painel **Billing and Cost Management** da AWS, é possível acompanh
 A imagem abaixo mostra o **resumo dos custos mensais** até o momento, incluindo o custo acumulado no mês atual e a previsão total para o mês:
 
 ![Resumo de Custos](../img/cost_summary.png)
+![Novo Resumo de Custos](../img/new_cost_summary.png)
 
 - **Month-to-date cost:** US$ 51.90  
 - **Total forecasted cost:** US$ 57.37  
